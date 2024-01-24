@@ -9,9 +9,12 @@ file_path = '/home/matt/Documents/obsidian_bubble_vault/bubble_trainer/your_file
 directory_path = '/home/matt/Documents/obsidian_bubble_vault/bubble_trainer/'
 
 
-def remove_mds():
-
-
+def remove_markdown_files():
+    try:
+        os.system(f'rm {directory_path}*.md')
+        print("Markdown files removed successfully.")
+    except Exception as e:
+        print(f"Error: {e}")
 
 def train_mode():
     global file_path
@@ -159,12 +162,100 @@ def train_mode():
 
     parse_markdown(file_path)
 
-# Call the train_mode function
-#train_mode()
-
 def free_mode():
-    print("Free mode selected")
-    # Add your free mode logic here
+    global file_path
+
+    def parse_markdown(file_path):
+        # Define a dictionary to store replaced text
+        references = {}
+
+        # Read the Markdown file using an absolute path
+        with open(file_path, 'r') as file:
+            markdown_content = file.read()
+
+        # Define the regex pattern to find text between double brackets
+        pattern = r'\[\[(.*?)\]\]'
+
+        # Use regex to replace text surrounded by double brackets with increasing question marks
+        def replace_text(match):
+            text_to_replace = match.group(1)
+            references[len(references)] = text_to_replace
+            question_marks = '?' * (len(references))  # Append two extra question marks for each replacement
+            return f'[[{question_marks}]]'
+
+        replaced_content = re.sub(pattern, replace_text, markdown_content)
+
+        # Write the modified content back to the original file
+        with open(file_path, 'w') as file:
+            file.write(replaced_content)
+
+        # Check other markdown files in the parent directory
+        parent_directory_path = os.path.dirname(file_path)
+
+        for filename in os.listdir(parent_directory_path):
+            if filename.endswith('.md') and filename != os.path.basename(file_path):
+                original_filename = os.path.splitext(filename)[0]
+
+                # Check if the file name is a reference
+                if original_filename in references.values():
+                    position = list(references.values()).index(original_filename)
+                    associated_string = '?' * (position + 1)
+                    new_file_path = os.path.join(parent_directory_path, associated_string + '.md')
+                    os.rename(os.path.join(parent_directory_path, filename), new_file_path)
+
+        start_time = time.time()
+
+        # Prompt the user to resolve references
+        skipped_indices = []
+
+        while True:
+            user_input = input(f"\nEnter a node (or 'q' to exit): ").lower()
+
+            # Check if user wants to exit
+            if user_input == 'q':
+                break
+
+            # Check if user input is correct
+            if user_input in references.values():
+                print("\nCorrect!")
+
+                # Find the index of the reference
+                index = list(references.values()).index(user_input)
+
+                # Write back the correct value to the Markdown file
+                replaced_content = replaced_content.replace(f'[[{"?" * (index + 1)}]]', f'[[{user_input}]]', 1)
+                with open(file_path, 'w') as file:
+                    file.write(replaced_content)
+
+                # Rename the file back to the correct value
+                restored_filename = os.path.join(parent_directory_path, user_input + '.md')
+                position = list(references.values()).index(user_input)
+                associated_string = '?' * (position + 1)
+                new_file_path = os.path.join(parent_directory_path, associated_string + '.md')
+                os.rename(new_file_path, restored_filename)
+
+                question_marks = '?' * (index + 2)
+                filename_without_extension, extension = os.path.splitext(restored_filename)
+                new_path = os.path.dirname(filename_without_extension) + '/'
+                new_file_path = f'{new_path}{user_input}.md'
+
+            else:
+                print("Incorrect! Try again.")
+                skipped_indices.append(index)
+
+        # Provide statistics even if the user exits with 'q'
+        end_time = time.time()
+        elapsed_time = end_time - start_time
+        retention_rate = (len(references) - len(skipped_indices)) / len(references) if len(references) != 0 else 0
+
+        print(f"\nTime taken to finish: {elapsed_time:.2f} seconds")
+        print(f"Retention rate: {retention_rate * 100:.2f}% (Correct: {len(references) - len(skipped_indices)}/{len(references)})")
+
+    parse_markdown(file_path)
+
+# Call the function
+#free_mode()
+
 
 def select_markdown_file():
     global file_path  # Use the global file_path variable
@@ -270,7 +361,8 @@ menu_options = {
     "3": select_markdown_file,
     "4": generate_markdown_files,
     "5": show_statistics,
-    "6": exit_program,
+    "6": remove_markdown_files,
+    "7": exit_program,
 }
 
 while True:
@@ -278,7 +370,7 @@ while True:
     for key, value in menu_options.items():
         print(f"{key}. {value.__name__.replace('_', ' ').title()}")  # Format function names
 
-    choice = input("\nEnter your choice (1-6): ")
+    choice = input("\nEnter your choice (1-7): ")
 
     # Use the dictionary to call the corresponding function
     menu_options.get(choice, lambda: print("Invalid choice"))()
