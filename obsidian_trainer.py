@@ -5,8 +5,13 @@ import time
 
 
 # Example usage:
-file_path = '/home/matt/Documents/obsidian_bubble_vault/bubble_trainer/History.md'
+file_path = '/home/matt/Documents/obsidian_bubble_vault/bubble_trainer/your_file.md'
 directory_path = '/home/matt/Documents/obsidian_bubble_vault/bubble_trainer/'
+
+
+def remove_mds():
+
+
 
 def train_mode():
     global file_path
@@ -53,7 +58,7 @@ def train_mode():
 
         # Prompt the user to resolve references
         skipped_indices = []
-        print(references)
+
         for index in range(len(references)):
             user_input = input(f"\nWhat is the subject for {'?' * (index + 1)}\n ").lower()
 
@@ -62,7 +67,7 @@ def train_mode():
                 print("\nCorrect!")
 
                 # Write back the correct value to the Markdown file
-                print(replaced_content)
+
                 replaced_content = replaced_content.replace(f'[[{"?" * (index + 1)}]]', f'[[{references[index]}]]', 1)
                 with open(file_path, 'w') as file:
                     file.write(replaced_content)
@@ -98,14 +103,20 @@ def train_mode():
 
                             # Rename the file back to the correct value
                             restored_filename = os.path.join(parent_directory_path, references[index] + '.md')
+#
+                            position = list(references.values()).index(user_input.lower())
+                            associated_string = '?' * (position + 1)
+                            new_file_path = os.path.join(parent_directory_path, associated_string + '.md')
+
+#
                             os.rename(new_file_path, restored_filename)
 
                             question_marks = '?' * (index + 2)
                             filename_without_extension, extension = os.path.splitext(restored_filename)
                             new_path = os.path.dirname(filename_without_extension) + '/'
-                            new_file_path = f'{new_path}{question_marks}.md'
+                            new_file_path = f'{new_path}{references[index]}.md'
 
-                            # Remove the index from skipped_indices since the user got it correct after retrying
+                             # Remove the index from skipped_indices since the user got it correct after retrying
                             if index in skipped_indices:
                                 skipped_indices.remove(index)
 
@@ -173,12 +184,14 @@ def append_to_file(filename, content):
     with open(filename, 'a') as file:
         file.write(f'[[{content}]]\n')
 
-def remove_markdown_files(filenames):
-    for filename in filenames:
-        try:
-            os.remove(filename)
-        except FileNotFoundError:
-            pass
+#def remove_markdown_files(filenames):
+#    for filename in filenames:
+#        try:
+#            os.remove(filename)
+#        except FileNotFoundError:
+#            pass
+#
+
 
 def generate_markdown_files():
     global directory_path
@@ -208,6 +221,8 @@ def generate_markdown_files():
 
                 second_level_nodes = input(f"Enter Dependencies for {node.strip()} (separate with commas): ").split(',')
                 for second_node in second_level_nodes:
+                    second_node_filename = f'{second_node.strip()}.md'
+                    create_markdown_file(second_node_filename)
                     append_to_file(node_filename, second_node.strip())
                     second_level_dependencies.append(second_node.strip())
 
@@ -220,6 +235,8 @@ def generate_markdown_files():
                         node_filename = f'{node.strip()}.md'
                         new_second_nodes = input(f"Enter Dependencies for {node.strip()} (separate with commas): ").split(',')
                         for new_second_node in new_second_nodes:
+                            new_second_node_filename = f'{new_second_node.strip()}.md'
+                            create_markdown_file(new_second_node_filename)
                             append_to_file(node_filename, new_second_node.strip())
                             new_second_level_dependencies.append(new_second_node.strip())
 
@@ -235,7 +252,6 @@ def generate_markdown_files():
         return
 
     print("Exiting.")
-
 #generate_markdown_files()
 
 def show_statistics():
