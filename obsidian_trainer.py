@@ -46,13 +46,14 @@ def train_mode():
                     position = list(references.values()).index(original_filename)
                     associated_string = '?' * (position + 1)
                     new_file_path = os.path.join(parent_directory_path, associated_string + '.md')
+                    print(new_file_path)
                     os.rename(os.path.join(parent_directory_path, filename), new_file_path)
 
         start_time = time.time()
 
         # Prompt the user to resolve references
         skipped_indices = []
-
+        print(references)
         for index in range(len(references)):
             user_input = input(f"\nWhat is the subject for {'?' * (index + 1)}\n ").lower()
 
@@ -61,18 +62,25 @@ def train_mode():
                 print("\nCorrect!")
 
                 # Write back the correct value to the Markdown file
+                print(replaced_content)
                 replaced_content = replaced_content.replace(f'[[{"?" * (index + 1)}]]', f'[[{references[index]}]]', 1)
                 with open(file_path, 'w') as file:
                     file.write(replaced_content)
 
                 # Rename the file back to the correct value
                 restored_filename = os.path.join(parent_directory_path, references[index] + '.md')
+#
+                position = list(references.values()).index(user_input.lower())
+                associated_string = '?' * (position + 1)
+                new_file_path = os.path.join(parent_directory_path, associated_string + '.md')
+
+#
                 os.rename(new_file_path, restored_filename)
 
                 question_marks = '?' * (index + 2)
                 filename_without_extension, extension = os.path.splitext(restored_filename)
                 new_path = os.path.dirname(filename_without_extension) + '/'
-                new_file_path = f'{new_path}{question_marks}.md'
+                new_file_path = f'{new_path}{references[index]}.md'
 
             else:
                 skipped_indices.append(index)
@@ -182,6 +190,8 @@ def generate_markdown_files():
 
         first_level_dependencies = input("Enter First Level Dependencies (separate with commas): ").split(',')
         for dependency in first_level_dependencies:
+            dep_filename = f'{dependency.strip()}.md'
+            create_markdown_file(dep_filename)
             append_to_file(root_filename, dependency.strip())
 
         # Prompt to continue with first level dependencies
