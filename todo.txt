@@ -1,23 +1,41 @@
 
-
-### Free Mode
-
+## Save Statistics and Show Statistics
 ---
 
-If the user enters free mode every reference will be turned into a string of question marks.
+save statistics for retention on each train
 
-The user will not be asked to resolve any references. It will be up to them to enter values that resolve references.
-
-For every string input that matches a reference will be resolved.
-
-If the user finishes all references statistics for performance will be returned
-
-otherwise the user can press F to finish and all references will be resolved and statstics will be returned.
+maintain total count for number of correct answers
+maintain total count for number of questions
 
 
-1.) train mode
-2.) free mode
-3.) show statistics
-4.) select markdown file
-5.) generate markdown files
-6.) exit
+total correct = 75
+total trained = 100
+
+75% retention rate
+
+
+if the user completes the run in a time faster than their fastest time save the time
+
+global_best_time is checked on each train run
+global_best_free_time is checked on each free run
+
+
+global_retention is calculated when requested to save to a file and when shown on show statistics
+
+save global_best_time, global_best_free_time,and global_retention to a file on request
+
+
+show these statistics on request when the user presses the show statistics button
+
+
+----
+
+## Save Bubbles
+---
+
+
+Create a directory in the obsidian vault dir and move all .md files in the current directory into this directory
+
+save statistics and store in this directory as well
+
+? potentially modify program to load statistics on boot and to remember the last saved file_path

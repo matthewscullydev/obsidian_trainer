@@ -8,6 +8,12 @@ import time
 file_path = '/home/matt/Documents/obsidian_bubble_vault/bubble_trainer/your_file.md'
 directory_path = '/home/matt/Documents/obsidian_bubble_vault/bubble_trainer/'
 
+
+def save_markdown_files():
+    userdir = input("Save mindmap as ?\n")
+    os.system(f'mkdir {directory_path}/History/{userdir}')
+    os.system(f'mv {directory_path}/*.md {directory_path}/History/{userdir}')
+
 def remove_markdown_files():
     global directory_path
     try:
@@ -364,6 +370,7 @@ menu_options = {
     "4": generate_markdown_files,
     "5": remove_markdown_files,
     "6": exit_program,
+    "7": save_markdown_files,
 }
 
 while True:
