@@ -8,12 +8,12 @@ import time
 file_path = '/home/matt/Documents/obsidian_bubble_vault/bubble_trainer/your_file.md'
 directory_path = '/home/matt/Documents/obsidian_bubble_vault/bubble_trainer/'
 
-def save_markdown_files():
+def save_mindmap():
     userdir = input("Save mindmap as ?\n")
     os.system(f'mkdir {directory_path}/Flashcards/{userdir}')
     os.system(f'mv {directory_path}/*.md {directory_path}/Flashcards/{userdir}')
 
-def remove_markdown_files():
+def delete_mindmap():
     global directory_path
     try:
         os.system(f'rm {directory_path}/*.md')
@@ -21,10 +21,14 @@ def remove_markdown_files():
     except Exception as e:
         print(f"Error: {e}")
 
-def train_mode():
+def ordered_mode():
     global file_path
     def parse_markdown(file_path):
         # Define a dictionary to store replaced text
+        if(file_path ==  '/home/matt/Documents/obsidian_bubble_vault/bubble_trainer/your_file.md'):
+            print("Use option 3 to select a root node.")
+            return
+
         references = {}
 
         # Read the Markdown file using an absolute path
@@ -171,6 +175,11 @@ def free_mode():
     global file_path
 
     def parse_markdown(file_path):
+
+        if(file_path ==  '/home/matt/Documents/obsidian_bubble_vault/bubble_trainer/your_file.md'):
+            print("Use option 3 to select a root node.")
+            return
+
         # Define a dictionary to store replaced text
         references = {}
 
@@ -266,7 +275,7 @@ def free_mode():
     parse_markdown(file_path)
 
 
-def select_markdown_file():
+def select_root_node():
     global file_path  # Use the global file_path variable
     new_filename = input("Enter the new filename (without extension): ")
     # Extract the directory path from the global file_path
@@ -274,7 +283,7 @@ def select_markdown_file():
     # Modify the file path with the new filename
     file_path = os.path.join(directory_path, f'{new_filename}.md')
 
-# accessory functions for generate_markdown_files
+# accessory functions for generate_mindmap
 
 def create_markdown_file(filename):
     with open(filename, 'w') as file:
@@ -284,7 +293,7 @@ def append_to_file(filename, content):
     with open(filename, 'a') as file:
         file.write(f'[[{content}]]\n')
 
-def generate_markdown_files():
+def generate_mindmap():
     global directory_path, file_path
     try:
         root_node = input("Enter Root Node: ")
@@ -359,7 +368,6 @@ def generate_markdown_files():
 
 def import_mindmap():
     full_file_path = input("Enter the complete path to the root node for your tree: ")
-
     with open(full_file_path, 'r') as file:
         markdown_content = file.read()
 
@@ -385,6 +393,7 @@ def import_mindmap():
         # Use os.system to copy the file to the specified directory
         os.system(f'cp "{parent_directory}/{file_to_copy}" "{directory_path}"')
 
+
 def exit_program():
     print("Exiting program")
     # Add any cleanup logic here if needed
@@ -392,14 +401,14 @@ def exit_program():
 
 # Define a dictionary mapping choices to functions
 menu_options = {
-    "1": train_mode,
+    "1": ordered_mode,
     "2": free_mode,
-    "3": select_markdown_file,
-    "4": generate_markdown_files,
-    "5": remove_markdown_files,
-    "6": exit_program,
-    "7": save_markdown_files,
-    "8": import_mindmap,
+    "3": select_root_node,
+    "4": generate_mindmap,
+    "5": delete_mindmap,
+    "6": save_mindmap,
+    "7": import_mindmap,
+    "8": exit_program,
 }
 
 while True:
