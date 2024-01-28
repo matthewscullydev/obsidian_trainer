@@ -8,11 +8,10 @@ import time
 file_path = '/home/matt/Documents/obsidian_bubble_vault/bubble_trainer/your_file.md'
 directory_path = '/home/matt/Documents/obsidian_bubble_vault/bubble_trainer/'
 
-
 def save_markdown_files():
     userdir = input("Save mindmap as ?\n")
-    os.system(f'mkdir {directory_path}/History/{userdir}')
-    os.system(f'mv {directory_path}/*.md {directory_path}/History/{userdir}')
+    os.system(f'mkdir {directory_path}/Flashcards/{userdir}')
+    os.system(f'mv {directory_path}/*.md {directory_path}/Flashcards/{userdir}')
 
 def remove_markdown_files():
     global directory_path
@@ -357,6 +356,35 @@ def generate_markdown_files():
 
     print("Exiting.")
 
+
+def import_mindmap():
+    full_file_path = input("Enter the complete path to the root node for your tree: ")
+
+    with open(full_file_path, 'r') as file:
+        markdown_content = file.read()
+
+    # Define the regex pattern to find text between double brackets with spaces
+    pattern = r'\[\[([^\]]+)\]\]'
+
+    # Use regex to find all matches in the markdown content
+    matches = re.findall(pattern, markdown_content)
+
+    # Copy the root file to the destination directory
+    os.system(f'cp "{full_file_path}" "{directory_path}"')
+
+    # Iterate through the matches and process each one
+    for match in matches:
+        # Concatenate ".md" to the entire matched text (including spaces)
+        file_to_copy = match + '.md'
+
+        # Get the parent directory of full_file_path
+        parent_directory = os.path.dirname(full_file_path)
+
+        print(f'Copying "{parent_directory}/{file_to_copy}" to "{directory_path}"')
+
+        # Use os.system to copy the file to the specified directory
+        os.system(f'cp "{parent_directory}/{file_to_copy}" "{directory_path}"')
+
 def exit_program():
     print("Exiting program")
     # Add any cleanup logic here if needed
@@ -371,6 +399,7 @@ menu_options = {
     "5": remove_markdown_files,
     "6": exit_program,
     "7": save_markdown_files,
+    "8": import_mindmap,
 }
 
 while True:
@@ -378,7 +407,7 @@ while True:
     for key, value in menu_options.items():
         print(f"{key}. {value.__name__.replace('_', ' ').title()}")  # Format function names
 
-    choice = input("\nEnter your choice (1-6): ")
+    choice = input("\nEnter your choice (1-8): ")
 
     # Use the dictionary to call the corresponding function
     menu_options.get(choice, lambda: print("Invalid choice"))()
