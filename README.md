@@ -19,7 +19,7 @@ mv mindmap_generator.py /home/User/Documents/yourvault/
 ## Selecting Bubble Tree to Train With
 ---
 
-Once you have generated a mindmap choose option 2 to select a root node for retetntion training.
+Once you have generated a mindmap choose option 2 to select a root node for retention training.
 
 Type in the name of the bubble whose children you would like to practice retention with.
 
