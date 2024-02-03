@@ -1,7 +1,7 @@
 ## Obsidian Mindmap Generator
 ---
 
-This is a tool for generating mindmaps within obsidian. In order to use this you will want to follow these preliminary steps first.
+This is a tool for generating mindmaps and practicing retention within obsidian. In order to use this you will want to follow these preliminary steps first.
 
 * Create a new Obsidian vault
 	* This is for the safety of your other .md files within the directory you will place this script.
@@ -16,6 +16,8 @@ mv mindmap_generator.py /home/User/Documents/yourvault/
 	- Set Link Distance to 30
  
 ---
+
+Once you have generated a mindmap choose option 3 and type in the name of the bubble whose children you would like to practice retention with.
 
 ![Example Video](https://imgur.com/W9uLAlh.gif)
 
