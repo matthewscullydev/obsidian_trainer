@@ -5,18 +5,9 @@ import time
 
 
 # Example usage:
-file_path = '/home/matt/Documents/obsidian_bubble_vault/bubble_trainer/your_file.md'
-directory_path = '/home/matt/Documents/obsidian_bubble_vault/bubble_trainer/'
-#save_path = '/home/matt/Documents/obsidian_bubble_vault/Flashcards'
-
-#def save_mindmap():
-#    userdir = input("Save mindmap as ?\n")
-#    flashcardpath = os.path.dirname(directory_path)
-#    print(f'{flashcardpath}')
-#    os.system(f'mkdir `{save_path}/{userdir}')
-#    os.system(f'mv {directory_path}/*.md {save_path}/{userdir}')
-
-save_path = '/home/matt/Documents/obsidian_bubble_vault/Flashcards'
+file_path = '/home/User/Documents/obsidian_bubble_vault/bubble_trainer/your_file.md'
+directory_path = '/home/User/Documents/obsidian_bubble_vault/bubble_trainer/'
+save_path = '/home/User/Documents/obsidian_bubble_vault/Flashcards'
 
 def save_mindmap():
     userdir = input("Save mindmap as?\n")
@@ -232,32 +223,6 @@ def generate_mindmap():
     file_path = os.path.join(directory_path, f'{new_filename}.md')
 
     print("Exiting.")
-
-
-#def import_mindmap():
-#    full_file_path = input("Enter the complete path to the root node for your tree: ")
-#   # Define the regex pattern to find text between double brackets with spaces
-#    pattern = r'\[\[([^\]]+)\]\]'
-#
-#    # Use regex to find all matches in the markdown content
-#    matches = re.findall(pattern, markdown_content)
-#
-    # Copy the root file to the destination directory
-#    os.system(f'cp -r "{full_file_path}" "{directory_path}"')
-
-#    # Iterate through the matches and process each one
-#    for match in matches:
-#        # Concatenate ".md" to the entire matched text (including spaces)
-#        file_to_copy = match + '.md'
-#
-#        # Get the parent directory of full_file_path
-#        parent_directory = os.path.dirname(full_file_path)
-#
-#        print(f'Copying "{parent_directory}/{file_to_copy}" to "{directory_path}"')
-#
-#        # Use os.system to copy the file to the specified directory
-#        os.system(f'cp "{parent_directory}/{file_to_copy}" "{directory_path}"')
-#
 
 def exit_program():
     print("Exiting program")
