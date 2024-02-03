@@ -16,6 +16,9 @@ mv mindmap_generator.py /home/User/Documents/yourvault/
 	- Set Link Distance to 30
  
 ---
+
+![Example Video](https://imgur.com/W9uLAlh.gif)
+
 ## Importing Mindmaps
 ---
 
