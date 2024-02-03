@@ -30,7 +30,7 @@ You will type in the names of the children which are converted into question mar
 
 ---
 
-![Example Video](https://github.com/matthewscullydev/obsidian_trainer/assets/26017402/a6d3e881-3cf1-43ef-b47c-f4192cc88eef)
+![Example Video](https://github.com/matthewscullydev/obsidian_trainer/assets/26017402/3398ca7d-e7d7-426d-b553-0f93f357f868)
 
 ## Importing Mindmaps
 ---
