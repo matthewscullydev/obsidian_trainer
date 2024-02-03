@@ -16,8 +16,19 @@ mv mindmap_generator.py /home/User/Documents/yourvault/
 	- Set Link Distance to 30
  
 ---
+## Selecting Bubble Tree to Train With
+---
 
-Once you have generated a mindmap choose option 3 and type in the name of the bubble whose children you would like to practice retention with.
+Once you have generated a mindmap choose option 2 to select a root node for retetntion training.
+
+Type in the name of the bubble whose children you would like to practice retention with.
+
+
+When you enter free mode using option 1 its children will be turned into question marks.
+
+You will type in the names of the children which are converted into question marks in order to practice retention!
+
+---
 
 ![Example Video](https://imgur.com/W9uLAlh.gif)
 
